@@ -4,7 +4,7 @@ FortiZTP Devices API.
 Auto-generated from schema - contains 5 endpoints.
 """
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 if TYPE_CHECKING:
     from hfortix_core.http.cloud_client import CloudHTTPClient
@@ -75,7 +75,7 @@ class DevicesAPI:
 
     def bulk_provision(
         self,
-        devices: list[dict[str, Any]],
+        devices: List[Dict[str, Any]],
     ) -> FortiZTPResponse:
         """
         Provision/Unprovision devices.

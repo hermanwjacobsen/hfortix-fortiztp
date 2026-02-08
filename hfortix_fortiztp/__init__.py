@@ -62,7 +62,7 @@ API Coverage:
         - Health check
 """
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from hfortix_core.http.cloud_client import CloudHTTPClient
 from hfortix_core.http.oauth import FortiCloudAuth
@@ -86,9 +86,6 @@ from .types import (
     ServiceStatus,
     SystemData,
 )
-
-if TYPE_CHECKING:
-    from typing import Optional
 
 
 __version__ = "0.1.0"

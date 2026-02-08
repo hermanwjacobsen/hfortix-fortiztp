@@ -4,7 +4,7 @@ FortiZTP Scripts API.
 Auto-generated from schema - contains 7 endpoints.
 """
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 if TYPE_CHECKING:
     from hfortix_core.http.cloud_client import CloudHTTPClient

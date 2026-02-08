@@ -4,7 +4,7 @@ FortiZTP Fortimanagers API.
 Auto-generated from schema - contains 5 endpoints.
 """
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 if TYPE_CHECKING:
     from hfortix_core.http.cloud_client import CloudHTTPClient
@@ -17,7 +17,7 @@ from hfortix_fortiztp.types import (
 )
 
 
-class FortimanagersAPI:
+class FortiManagersAPI:
     """Fortimanagers API endpoints."""
 
     def __init__(self, client: "CloudHTTPClient") -> None:
@@ -221,4 +221,4 @@ class FortimanagersAPI:
         return FortiZTPResponse(response)
 
 
-__all__ = ["FortimanagersAPI"]
+__all__ = ["FortiManagersAPI"]
