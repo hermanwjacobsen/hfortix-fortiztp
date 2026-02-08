@@ -64,7 +64,7 @@ API Coverage:
 
 from typing import TYPE_CHECKING, Any
 
-from hfortix_core.http import CloudHTTPClient
+from hfortix_core.http.cloud_client import CloudHTTPClient
 from hfortix_core.http.oauth import FortiCloudAuth
 
 # Response models
@@ -205,9 +205,9 @@ class FortiZTP:
             user_context=user_context,
         )
         
-        # API endpoints will be initialized here
-        # TODO: Initialize when category classes are implemented
-        # self.api = V2API(self._client)
+        # Initialize API endpoints
+        from .api.v2 import V2API
+        self.api = V2API(self._client)
     
     def get_retry_stats(self) -> dict[str, Any]:
         """
