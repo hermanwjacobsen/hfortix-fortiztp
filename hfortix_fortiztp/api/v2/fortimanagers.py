@@ -26,7 +26,7 @@ class FortiManagersAPI:
 
     def fortimanagers_get(
         self,
-        oid: int,
+        oid: Optional[int] = None,
     ) -> FortiZTPResponse:
         """
         Get specific FortiManager data.
@@ -47,14 +47,22 @@ class FortiManagersAPI:
             >>> response = client.api.fortimanagers.fortimanagers_get(...)
             >>> print(response.http_status_code)
         """
-        # Build path with parameters
-        path = f"/v2/setting/fortimanagers/{oid}"
+        # Build path - either specific resource or collection
+        if oid:
+            path = f"/v2/setting/fortimanagers/{oid}"
+        else:
+            path = "/v2/setting/fortimanagers"
 
         # Make HTTP request
         response = self._client.get(path)
 
-        # Wrap in FortiZTPResponse
-        return FortiZTPResponse(response)
+        # Wrap in FortiZTPResponse - unpack the response envelope
+        return FortiZTPResponse(
+            data=response["data"],
+            http_status_code=response.get("http_status_code"),
+            response_time=response.get("response_time"),
+            request_info=response.get("request_info")
+        )
 
 
     def fortimanagers_put(
@@ -88,7 +96,6 @@ class FortiManagersAPI:
             >>> response = client.api.fortimanagers.fortimanagers_put(...)
             >>> print(response.http_status_code)
         """
-        # Build path with parameters
         path = f"/v2/setting/fortimanagers/{oid}"
 
         # Build request body
@@ -105,8 +112,13 @@ class FortiManagersAPI:
         # Make HTTP request
         response = self._client.put(path, data=data)
 
-        # Wrap in FortiZTPResponse
-        return FortiZTPResponse(response)
+        # Wrap in FortiZTPResponse - unpack the response envelope
+        return FortiZTPResponse(
+            data=response["data"],
+            http_status_code=response.get("http_status_code"),
+            response_time=response.get("response_time"),
+            request_info=response.get("request_info")
+        )
 
 
     def fortimanagers_delete(
@@ -132,14 +144,18 @@ class FortiManagersAPI:
             >>> response = client.api.fortimanagers.fortimanagers_delete(...)
             >>> print(response.http_status_code)
         """
-        # Build path with parameters
         path = f"/v2/setting/fortimanagers/{oid}"
 
         # Make HTTP request
         response = self._client.delete(path)
 
-        # Wrap in FortiZTPResponse
-        return FortiZTPResponse(response)
+        # Wrap in FortiZTPResponse - unpack the response envelope
+        return FortiZTPResponse(
+            data=response["data"],
+            http_status_code=response.get("http_status_code"),
+            response_time=response.get("response_time"),
+            request_info=response.get("request_info")
+        )
 
 
     def fortimanagers_list(
@@ -166,8 +182,13 @@ class FortiManagersAPI:
         # Make HTTP request
         response = self._client.get(path)
 
-        # Wrap in FortiZTPResponse
-        return FortiZTPResponse(response)
+        # Wrap in FortiZTPResponse - unpack the response envelope
+        return FortiZTPResponse(
+            data=response["data"],
+            http_status_code=response.get("http_status_code"),
+            response_time=response.get("response_time"),
+            request_info=response.get("request_info")
+        )
 
 
     def fortimanagers_post(
@@ -217,8 +238,11 @@ class FortiManagersAPI:
         # Make HTTP request
         response = self._client.post(path, data=data)
 
-        # Wrap in FortiZTPResponse
-        return FortiZTPResponse(response)
+        # Wrap in FortiZTPResponse - unpack the response envelope
+        return FortiZTPResponse(
+            data=response["data"],
+            http_status_code=response.get("http_status_code"),
+            response_time=response.get("response_time"),
+            request_info=response.get("request_info")
+        )
 
-
-__all__ = ["FortiManagersAPI"]

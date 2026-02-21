@@ -24,7 +24,7 @@ class SystemAPI:
         """Initialize System API."""
         self._client = client
 
-    def get(
+    def system_get(
         self,
     ) -> FortiZTPResponse:
         """
@@ -48,8 +48,11 @@ class SystemAPI:
         # Make HTTP request
         response = self._client.get(path)
 
-        # Wrap in FortiZTPResponse
-        return FortiZTPResponse(response)
+        # Wrap in FortiZTPResponse - unpack the response envelope
+        return FortiZTPResponse(
+            data=response["data"],
+            http_status_code=response.get("http_status_code"),
+            response_time=response.get("response_time"),
+            request_info=response.get("request_info")
+        )
 
-
-__all__ = ["SystemAPI"]

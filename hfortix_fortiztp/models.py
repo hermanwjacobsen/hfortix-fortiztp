@@ -9,6 +9,40 @@ from __future__ import annotations
 from typing import Any, Iterator
 
 
+class FortiZTPDevice:
+    """
+    Wrapper for individual device objects in FortiZTP responses.
+    
+    Provides attribute access to device fields.
+    """
+    
+    def __init__(self, data: dict[str, Any]):
+        """Initialize device wrapper."""
+        self._data = data
+    
+    def __getattr__(self, name: str) -> Any:
+        """Allow attribute access to device fields."""
+        if name.startswith("_"):
+            raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+        
+        if name in self._data:
+            return self._data[name]
+        
+        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+    
+    def __getitem__(self, key: str) -> Any:
+        """Dictionary-style access to device fields."""
+        return self._data[key]
+    
+    def __repr__(self) -> str:
+        """String representation."""
+        return f"<FortiZTPDevice({self._data.get('deviceSN', 'unknown')})>"
+    
+    def to_dict(self) -> dict[str, Any]:
+        """Get the original dictionary data."""
+        return self._data
+
+
 class FortiZTPResponse:
     """
     Structured wrapper for FortiZTP API responses.
@@ -87,6 +121,21 @@ class FortiZTPResponse:
     def raw(self) -> dict[str, Any]:
         """Raw API response dictionary."""
         return self._data
+    
+    @property
+    def json(self) -> dict[str, Any]:
+        """Raw API response as JSON/dictionary (alias for .raw)."""
+        return self._data
+    
+    @property
+    def data(self) -> Any:
+        """
+        Response data field.
+        
+        For list responses, returns the list of items.
+        For single object responses, returns the object data.
+        """
+        return self._data.get('data', self._data)
     
     @property
     def request_info(self) -> dict[str, Any] | None:
@@ -188,12 +237,40 @@ class FortiZTPResponse:
         """Check if field exists in response data."""
         return key in self._data
     
-    def __iter__(self) -> Iterator[str]:
-        """Iterate over response field names."""
-        return iter(self._data)
+    def __iter__(self) -> Iterator[Any]:
+        """
+        Iterate over response data.
+        
+        If response contains a 'data' field that is a list, iterates over the list items,
+        wrapping each dict in FortiZTPDevice for attribute access.
+        Otherwise, iterates over response field names.
+        
+        This allows:
+            devices = client.devices.get()
+            for device in devices:  # Iterates over device objects
+                print(device.deviceSN)  # Attribute access
+        """
+        # Check if 'data' field exists and is a list
+        if 'data' in self._data and isinstance(self._data['data'], list):
+            # Wrap each dict in FortiZTPDevice for attribute access
+            for item in self._data['data']:
+                if isinstance(item, dict):
+                    yield FortiZTPDevice(item)
+                else:
+                    yield item
+        else:
+            # Otherwise iterate over field names (dict keys)
+            yield from iter(self._data)
     
     def __len__(self) -> int:
-        """Number of fields in response."""
+        """
+        Number of items in response.
+        
+        If response contains a 'data' field that is a list, returns length of that list.
+        Otherwise, returns number of fields in response.
+        """
+        if 'data' in self._data and isinstance(self._data['data'], list):
+            return len(self._data['data'])
         return len(self._data)
     
     def __repr__(self) -> str:
@@ -205,4 +282,4 @@ class FortiZTPResponse:
         return f"<{type(self).__name__}{metadata}>"
 
 
-__all__ = ["FortiZTPResponse"]
+__all__ = ["FortiZTPResponse", "FortiZTPDevice"]
