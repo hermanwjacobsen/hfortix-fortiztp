@@ -40,7 +40,7 @@ for device in response.data:
     print(f"{device['deviceSN']}: {device['provisionStatus']}")
 
 # Get specific device
-device = client.v2.devices.get.get(device_sn="FGT60D4615067214")
+device = client.v2.devices.get.get(device_sn="FGT60FTK19000001")
 print(f"Device type: {device.deviceType}")
 print(f"Status: {device.provisionStatus}")
 ```
@@ -69,17 +69,9 @@ print(f"Status: {device.provisionStatus}")
 
 ## Documentation
 
-- [API Documentation](https://github.com/hermanwjacobsen/hfortix-fortiztp/blob/main/dev/internal-docs/API_DOCUMENTATION.md)
-- [Schema Documentation](https://github.com/hermanwjacobsen/hfortix-fortiztp/blob/main/dev/internal-docs/SCHEMA_FORMAT.md)
-- [Implementation Roadmap](https://github.com/hermanwjacobsen/hfortix-fortiztp/blob/main/dev/internal-docs/IMPLEMENTATION_ROADMAP.md)
-
-## Development Status
-
-**Schema:** ✅ 100% Complete (18/18 endpoints)  
-**Code Generation:** ⏳ In Progress  
-**Testing:** ❌ Not Started
-
-See [SCHEMA_GAPS_ANALYSIS.md](https://github.com/hermanwjacobsen/hfortix-fortiztp/blob/main/dev/internal-docs/SCHEMA_GAPS_ANALYSIS.md) for detailed status.
+- [FortiZTP Cloud API reference](https://fndn.fortinet.net/) (Fortinet Developer Network)
+- Package usage: see the examples above and the typed method signatures
+  (full IDE autocomplete via bundled `.pyi` stubs)
 
 ## Requirements
 
@@ -108,7 +100,7 @@ This package is part of the hfortix SDK family:
 ## Author
 
 FortiX Development Team  
-Email: herman.w.jacobsen@gmail.com
+Support: https://github.com/hermanwjacobsen/hfortix-fortiztp/issues
 
 ---
 
