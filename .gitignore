@@ -132,3 +132,6 @@ dmypy.json
 # OS
 .DS_Store
 Thumbs.db
+
+# Dev-only Claude Code instructions must never be published
+CLAUDE.md
