@@ -40,7 +40,7 @@ class SystemAPI:
             - Dict-like access to response fields
 
         Example:
-            >>> response = client.api.system.get(...)
+            >>> response = client.api.system.system_get(...)
             >>> print(response.http_status_code)
         """
         path = "/v2/system"

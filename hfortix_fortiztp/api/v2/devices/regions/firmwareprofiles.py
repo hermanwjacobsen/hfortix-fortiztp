@@ -8,7 +8,7 @@ API Endpoints:
 
 Example Usage:
     >>> from hfortix_fortiztp import FortiZTP
-    >>> client = FortiZTP(api_key="your-api-key")
+    >>> client = FortiZTP(oauth_token="your-oauth-token")
     >>>
     >>> response = client.devices.regions.firmwareprofiles.get(...)
 """
@@ -52,7 +52,7 @@ class Firmwareprofiles:
             - Dict-like access to response fields
 
         Example:
-            >>> response = client.api.devices.firmware_profiles(...)
+            >>> response = client.api.devices.regions.firmwareprofiles.get(...)
             >>> print(response.http_status_code)
         """
         path = f"/v2/devices/{device_sn}/regions/{region}/firmwareprofiles"

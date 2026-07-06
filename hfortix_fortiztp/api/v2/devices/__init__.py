@@ -26,7 +26,7 @@ class DevicesAPI:
         self._client = client
         self.regions = Regions(client)
 
-    def get(
+    def list(
         self,
         provision_status: Optional[ProvisionStatus] = None,
         device_type: Optional[DeviceType] = None,
@@ -80,7 +80,7 @@ class DevicesAPI:
         )
 
 
-    def put(
+    def put_bulk(
         self,
         devices: List[Dict[str, Any]],
     ) -> FortiZTPResponse:
@@ -90,6 +90,7 @@ class DevicesAPI:
         Provision or unprovision multiple devices in a single request.
 
         Args:
+            devices: Array of device provisioning requests (list of dicts using wire keys, e.g. deviceSN, deviceType, provisionStatus) (required)
 
         Returns:
             FortiZTPResponse: Response object with:
@@ -99,7 +100,7 @@ class DevicesAPI:
             - Dict-like access to response fields
 
         Example:
-            >>> response = client.api.devices.bulk_provision(...)
+            >>> response = client.api.devices.put_bulk(...)
             >>> print(response.http_status_code)
         """
         path = "/v2/devices"

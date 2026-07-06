@@ -8,7 +8,7 @@ API Endpoints:
 
 Example Usage:
     >>> from hfortix_fortiztp import FortiZTP
-    >>> client = FortiZTP(api_key="your-api-key")
+    >>> client = FortiZTP(oauth_token="your-oauth-token")
     >>>
     >>> response = client.devices.regions.firmwareprofiles.get(...)
 """

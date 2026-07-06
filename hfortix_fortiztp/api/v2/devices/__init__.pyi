@@ -18,7 +18,7 @@ class DevicesAPI:
     
     def __init__(self, client: CloudHTTPClient) -> None: ...
     
-    def get(
+    def list(
         self,
         provision_status: Optional[ProvisionStatus] = None,
         device_type: Optional[DeviceType] = None,
@@ -26,7 +26,7 @@ class DevicesAPI:
         use_cache: Optional[bool] = None,
     ) -> FortiZTPResponse: ...
     
-    def put(
+    def put_bulk(
         self,
         devices: List[Dict[str, Any]],
     ) -> FortiZTPResponse: ...
