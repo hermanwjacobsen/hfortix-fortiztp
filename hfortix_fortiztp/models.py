@@ -56,7 +56,7 @@ class FortiZTPResponse:
     - Iteration support for list responses
     
     Examples:
-        >>> response = client.v2.devices.list.get(provision_status="provisioned")
+        >>> response = client.devices.list(provision_status="provisioned")
         >>>
         >>> # Attribute access
         >>> response.total  # Total number of devices

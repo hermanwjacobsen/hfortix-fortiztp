@@ -5,61 +5,78 @@ Provides a fully-typed Python interface to the FortiZTP Cloud API v2.0.
 Supports device provisioning, script management, FortiManager integration,
 and system status monitoring.
 
+Authentication (choose one):
+    - ``api_id`` + ``password``: FortiCloud IAM API credentials (auto-login)
+    - ``oauth_token``: a pre-obtained OAuth2 bearer token
+    - ``session``: a shared :class:`hfortix_core.session.CloudSession`
+      (recommended when also using FortiCare)
+
 Basic Usage:
     >>> from hfortix_fortiztp import FortiZTP
-    >>> 
-    >>> # Initialize client with OAuth credentials
-    >>> client = FortiZTP(
-    ...     client_id="your_client_id",
-    ...     client_secret="your_client_secret"
-    ... )
-    >>> 
-    >>> # List all devices
-    >>> response = client.devices.list_devices(limit=10)
-    >>> for device in response["data"]:
-    ...     print(f"{device['deviceSN']}: {device['provisionStatus']}")
-    >>> 
-    >>> # Get device by serial number
-    >>> device = client.devices.get_device(serial_number="FG123456789")
-    >>> print(f"Status: {device['provisionStatus']}")
-    >>> 
-    >>> # Provision device to FortiManager
-    >>> result = client.devices.provision_device(
-    ...     serial_number="FG123456789",
+    >>>
+    >>> # Auto-login with FortiCloud API credentials
+    >>> client = FortiZTP(api_id="your_api_id", password="your_password")
+    >>>
+    >>> # List devices (optionally filtered)
+    >>> response = client.devices.list(provision_status="provisioned")
+    >>> for device in response:
+    ...     print(f"{device.deviceSN}: {device.provisionStatus}")
+    >>>
+    >>> # Get a single device by serial number
+    >>> device = client.devices.get(device_sn="FGT60FTK19000001")
+    >>>
+    >>> # Provision a device to FortiManager
+    >>> result = client.devices.put(
+    ...     device_sn="FGT60FTK19000001",
+    ...     device_type="FortiGate",
+    ...     provision_status="provisioned",
     ...     provision_target="FortiManager",
-    ...     fortimanager_oid=12345
+    ...     forti_manager_oid=12345,
     ... )
+    >>>
+    >>> # Bulk provision/unprovision (list of wire-format dicts)
+    >>> result = client.devices.put_bulk(
+    ...     devices=[
+    ...         {
+    ...             "deviceSN": "FGT60FTK19000001",
+    ...             "deviceType": "FortiGate",
+    ...             "provisionStatus": "provisioned",
+    ...             "provisionTarget": "FortiManager",
+    ...         }
+    ...     ]
+    ... )
+    >>>
+    >>> client.logout()
 
 Features:
-    - Full OAuth 2.0 authentication support
-    - Complete device lifecycle management (list, get, create, update, delete)
-    - Script management for pre-run CLI scripts
-    - FortiManager integration
+    - OAuth 2.0 authentication (auto-login, token, or shared CloudSession)
+    - Device provisioning lifecycle (list, get, provision/unprovision, bulk)
+    - Pre-run CLI script management
+    - FortiManager integration settings
     - System status monitoring
-    - Comprehensive type hints for IDE autocomplete
-    - Request/response metadata tracking
-    - Rate limiting (2,000 calls/hour)
+    - Comprehensive type hints for IDE autocomplete (PEP 561 stubs)
+    - Request/response metadata tracking and rate limit statistics
 
-API Coverage:
-    Devices (10 endpoints):
-        - List devices (paginated)
-        - Get device by serial number
-        - Create/update device provisioning
-        - Delete device
-        - Provision/unprovision devices
-        - Bulk operations
-    
-    Scripts (3 endpoints):
-        - List scripts
-        - Get/create/update/delete scripts
-    
-    FortiManagers (3 endpoints):
-        - List FortiManagers
-        - Get/create/update/delete FortiManager settings
-    
-    System (2 endpoints):
-        - Get system status
-        - Health check
+API Coverage (client.<category> is an alias for client.api.<category>):
+    Devices (client.devices):
+        - list(provision_status=..., device_type=..., device_sn=..., use_cache=...)
+        - get(device_sn=...)  # single device; lists all when device_sn omitted
+        - put(device_sn=..., device_type=..., provision_status=..., ...)
+        - put_bulk(devices=[...])  # bulk provision/unprovision
+        - regions.firmwareprofiles.get(device_sn=..., region=...)
+
+    Scripts (client.scripts):
+        - scripts_list(), scripts_get(oid), scripts_post(oid, name, ...),
+          scripts_put(oid, name, ...), scripts_delete(oid),
+          scripts_get_content(oid), scripts_put_content(oid)
+
+    FortiManagers (client.fortimanagers):
+        - fortimanagers_list(), fortimanagers_get(oid),
+          fortimanagers_post(sn, ip, ...), fortimanagers_put(oid, sn, ip, ...),
+          fortimanagers_delete(oid)
+
+    System (client.system):
+        - system_get()  # service status
 """
 
 from typing import TYPE_CHECKING, Any, Optional
@@ -156,11 +173,11 @@ class FortiZTP:
         >>> client = FortiZTP(oauth_token="your_token")
         >>> 
         >>> # Check system status
-        >>> status = client.system.get()
-        >>> 
+        >>> status = client.system.system_get()
+        >>>
         >>> # List all devices
-        >>> devices = client.devices.get()
-        >>> 
+        >>> devices = client.devices.list()
+        >>>
         >>> # Clean up
         >>> client.logout()
     
@@ -379,7 +396,7 @@ class FortiZTP:
         
         Example:
             >>> client = FortiZTP(api_id="...", password="...")
-            >>> response = client.devices.list_devices()
+            >>> response = client.devices.list()
             >>> stats = client.get_retry_stats()
             >>> print(f"Total retries: {stats['total_retries']}")
         """
