@@ -8,7 +8,15 @@ sys.path.insert(0, os.path.abspath('../..'))
 project = 'HFortix-FortiZTP'
 copyright = '2026, Herman W. Jacobsen'
 author = 'Herman W. Jacobsen'
-release = '0.5.161'
+
+# The full version, including alpha/beta/rc tags
+try:
+    from hfortix_fortiztp import __version__
+    release = __version__
+    version = '.'.join(__version__.split('.')[:2])
+except ImportError:
+    release = '0.5.163'
+    version = '0.5'
 
 # -- General configuration ---------------------------------------------------
 extensions = [

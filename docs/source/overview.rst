@@ -27,14 +27,14 @@ What You Can Do
 * **Device Management**: List, provision, unprovision devices (FortiGate, FortiAP, FortiSwitch, FortiExtender)
 * **Script Management**: Create, update, delete pre-run CLI scripts
 * **FortiManager Integration**: Configure and manage FortiManager connections
-* **System Monitoring**: Get system status and health checks
+* **System Monitoring**: Get system service status
 
 API Coverage
 ------------
 
 **18 endpoints across 4 categories:**
 
-* **Devices** (5 endpoints): List, get, update, bulk operations, firmware profiles
+* **Devices** (5 endpoints): List, get, provision/unprovision (single and bulk), firmware profiles
 * **Scripts** (7 endpoints): List, create, update, delete, content management
 * **FortiManagers** (5 endpoints): List, create, update, delete configurations
 * **System** (1 endpoint): Get system status

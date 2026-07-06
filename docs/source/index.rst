@@ -32,7 +32,7 @@ Quick Start
    )
 
    # List devices
-   devices = client.devices.get()
+   devices = client.devices.list()
 
    # Clean up
    client.logout()

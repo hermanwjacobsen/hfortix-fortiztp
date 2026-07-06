@@ -14,21 +14,21 @@ API Structure
 
 .. code-block:: python
 
-   client.api.
+   client.api.        # client.<category> is an alias for client.api.<category>
      ├── devices.
-     │   ├── list()              # List devices
-     │   ├── bulk_provision()    # Bulk operations
-     │   ├── get()               # Get device details
-     │   ├── update()            # Provision/unprovision
-     │   └── firmware_profiles() # Get firmware profiles
+     │   ├── list()              # List devices (filter by status/type/SN)
+     │   ├── get()               # Get device details by serial number
+     │   ├── put()               # Provision/unprovision single device
+     │   ├── put_bulk()          # Bulk provision/unprovision
+     │   └── regions.firmwareprofiles.get()  # Get firmware profiles
      ├── scripts.
      │   ├── scripts_list()      # List scripts
-     │   ├── scripts_post()      # Create script
+     │   ├── scripts_post()      # Create script metadata
      │   ├── scripts_get()       # Get script metadata
-     │   ├── scripts_put()       # Update script
+     │   ├── scripts_put()       # Update script metadata
      │   ├── scripts_delete()    # Delete script
-     │   ├── scripts_content_get()  # Download content
-     │   └── scripts_content_put()  # Upload content
+     │   ├── scripts_get_content()  # Download content
+     │   └── scripts_put_content()  # Upload content
      ├── fortimanagers.
      │   ├── fortimanagers_list() # List FortiManagers
      │   ├── fortimanagers_post() # Create config
