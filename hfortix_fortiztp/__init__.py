@@ -114,7 +114,7 @@ if TYPE_CHECKING:
     from .api.v2.system import SystemAPI
 
 
-__version__ = "0.5.163"
+__version__ = "0.5.164"
 
 
 class FortiZTP:
